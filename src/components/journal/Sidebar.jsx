@@ -8,7 +8,7 @@ export const Sidebar = () => {
       <div className="journal__sidebar-navbar">
         <h3 className={""}>
           <span className="material-icons-round">dark_mode</span>
-          <span>asdf</span>
+          <span>UserName</span>
         </h3>
 
         <Link className={" btn btn-logOut"} to='/login'>Logout</Link>
