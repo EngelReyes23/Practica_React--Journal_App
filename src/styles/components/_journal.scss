@@ -1,0 +1,115 @@
+.journal__main-content {
+  display: flex;
+}
+
+.journal__sidebar {
+  background-color: var(--secondary);
+  color: white;
+  display: flex;
+  flex-direction: column;
+  // align-items: center;
+  align-content: center;
+  height: 100vh;
+  padding: 0 10px;
+  width: 450px;
+}
+
+.journal__sidebar-navbar {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 1rem;
+
+  h3 {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+}
+
+.journal__sidebar-entry {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  transition: color 0.3s ease;
+  cursor: pointer;
+
+  & span:first-child {
+    font-size: 5em;
+  }
+
+  &:hover {
+    color: darken($color: white, $amount: 50%);
+  }
+}
+
+.btn-logOut {
+  margin: 0;
+  color: white;
+  max-width: max-content;
+  max-height: max-content;
+}
+
+.journal__entries {
+  margin-top: 2rem;
+  flex: 1 1 auto;
+  overflow: auto;
+  padding: 0.5rem;
+
+  // Change the scroll style
+  &::-webkit-scrollbar {
+    width: 10px;
+  }
+
+  &::-webkit-scrollbar-track {
+    background: var(--secondary);
+  }
+
+  &::-webkit-scrollbar-thumb {
+    background: var(--tertiary);
+
+    border-radius: 10px;
+  }
+}
+
+.journal__entry {
+  background-color: white;
+  border-radius: 0.5rem;
+  color: var(--secondary);
+  display: flex;
+  margin-bottom: 0.5rem;
+  overflow: hidden;
+  cursor: pointer;
+  transition: color 0.3s ease, background-color 0.3s ease;
+
+  &:hover {
+    color: white;
+    background-color: var(--primary);
+  }
+}
+
+.journal__entry-picture {
+  min-height: 75px;
+  min-width: 75px;
+}
+
+.journal__entry-body {
+  padding: 0.5rem;
+}
+.journal__entry-title {
+  font-size: 1rem;
+  font-weight: bold;
+}
+.journal__entry-content {
+  font-size: 0.8rem;
+}
+
+.journal__entry-date-box {
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  justify-content: center;
+  padding: 0.5rem;
+  font-size: 0.7rem;
+}
