@@ -40,7 +40,13 @@
   }
 
   &:hover {
-    color: darken($color: white, $amount: 50%);
+    transform: translateY(-1px);
+    color: var(--quaternary)
+  }
+
+  &:active {
+    transform: translateY(1px);
+    color: var(--tertiary)
   }
 }
 
@@ -49,6 +55,14 @@
   color: white;
   max-width: max-content;
   max-height: max-content;
+
+  &:hover {
+    background-color: var(--tertiary);
+  }
+
+  &:active {
+    color: var(--quaternary);
+  }
 }
 
 .journal__entries {
@@ -63,29 +77,34 @@
   }
 
   &::-webkit-scrollbar-track {
-    background: var(--secondary);
+    background: var(--tertiary);
   }
 
   &::-webkit-scrollbar-thumb {
-    background: var(--tertiary);
+    background: var(--quaternary);
 
     border-radius: 10px;
   }
 }
 
 .journal__entry {
-  background-color: white;
+  background-color: var(--primary);
   border-radius: 0.5rem;
   color: var(--secondary);
   display: flex;
   margin-bottom: 0.5rem;
   overflow: hidden;
   cursor: pointer;
-  transition: color 0.3s ease, background-color 0.3s ease;
+  transition: color 0.1s ease, background-color 0.1s ease;
 
   &:hover {
     color: white;
-    background-color: var(--primary);
+    background-color: var(--tertiary);
+  }
+
+  &:active {
+    transform: translateY(1px);
+    background-color: var(--quaternary);
   }
 }
 

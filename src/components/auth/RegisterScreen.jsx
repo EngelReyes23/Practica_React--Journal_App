@@ -6,7 +6,7 @@ export const RegisterScreen = () => {
     <form className={"auth__form"}>
       <h3 className={"auth__title"}>Register</h3>
 
-      <label className={"label"} htmlFor="email">
+      <label className={"label"} htmlFor="name">
         Name
       </label>
       <input
@@ -41,7 +41,7 @@ export const RegisterScreen = () => {
         name="password"
         autoComplete={"off"}
       />
-      <label className={"label"} htmlFor="password">
+      <label className={"label"} htmlFor="password2">
         Confirm Password
       </label>
       <input
