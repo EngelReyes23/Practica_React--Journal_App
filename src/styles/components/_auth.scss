@@ -51,6 +51,7 @@
 
 .auth__input {
   text-align: center;
+  font-weight: bold;
   border: none;
   border-bottom: 1px solid var(--secondary);
   padding: 1rem;
@@ -62,6 +63,11 @@
 
   &:focus {
     outline: none;
+    
+    &::selection {
+      background-color: var(--secondary);
+      color: var(--primary);
+    }
 
     border-color: var(--quaternary);
   }

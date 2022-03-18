@@ -1,30 +1,44 @@
-import React, { useState } from "react";
+import React from "react";
+import { useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
+import { loginWidthGoogle, loginWidthEmailPassword } from "../../actions/auth";
+import { useForm } from "../../hooks/useForm";
 
 export const LoginScreen = () => {
-  const [isValid, setIsValid] = useState(false);
+  const dispatch = useDispatch();
 
-  const [form, setForm] = useState({
-    email: "",
-    password: "",
+  const { handleInputChange, formValues } = useForm({
+    email: "asdf@gmail.com",
+    password: "123456789",
   });
 
-  const handleChange = (e) => {
-    setForm({
-      ...form,
-      [e.target.name]: e.target.value,
-    });
+  const { email, password } = formValues;
+
+  //#region Handles
+  const handleLogin = (e) => {
+    e.preventDefault();
+    dispatch(loginWidthEmailPassword(email, password));
   };
 
-  const isValidEmail = (email) => {
-    const regex = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
-    return regex.test(email);
+  const handleGoogleLogin = (e) => {
+    e.preventDefault();
+    dispatch(loginWidthGoogle());
   };
+  //#endregion Handles
+
+  // const isValidEmail = (email) => {
+  //   const regex = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
+  //   return regex.test(email);
+  // };
 
   return (
-    <form className={"auth__form"}>
+    <form className={"auth__form"} onSubmit={handleLogin}>
       <h3 className={"auth__title"}>Login</h3>
-      <button type={"button"} className={"btn btn-google"}>
+      <button
+        onClick={handleGoogleLogin}
+        type={"button"}
+        className={"btn btn-google"}
+      >
         {" "}
         <img
           className="google-icon"
@@ -43,28 +57,28 @@ export const LoginScreen = () => {
         type="email"
         placeholder={"Email@domain"}
         name="email"
-        value={form.email}
+        value={email}
         autoComplete={"off"}
-        onChange={handleChange}
+        onChange={handleInputChange}
       />
 
       <label className={"label"} htmlFor="password">
         Password
       </label>
       <input
-        value={form.password}
+        value={password}
         id="password"
         className={"auth__input"}
         type="password"
         placeholder={"********"}
         name="password"
         autoComplete={"off"}
-        onChange={handleChange}
+        onChange={handleInputChange}
       />
 
       <button
-        disabled={!isValidEmail(form.email)}
-        className={`btn btn-login ${isValid && valid}`}
+        // disabled={!isValidEmail(form.email)}
+        className={`btn btn-login`}
         type="submit"
       >
         Login

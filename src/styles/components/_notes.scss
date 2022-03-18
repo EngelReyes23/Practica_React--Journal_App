@@ -31,11 +31,15 @@
   flex-direction: column;
   height: 100%;
   padding: 1rem;
+  background-color: var(--primary);
 }
 
 .notes__title-input,
 .notes__textarea {
   border: none;
+  background-color: inherit;
+
+  caret-color: var(--quaternary);
 
   &:focus {
     outline: none;
@@ -59,7 +63,7 @@
   }
 }
 
-.notes__image{
+.notes__image {
   max-width: 250px;
   // max-height: 200px;
   object-fit: cover;
