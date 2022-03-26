@@ -62,3 +62,19 @@ export const registerEmailPasswordName = (email, password, name) => {
   };
 };
 //#endregion Register
+
+//#region Logout
+
+export const startLogout = () => {
+  return async (dispatch) => {
+    dispatch(startLoading());
+    await firebase.auth().signOut();
+    dispatch(logout());
+    dispatch(finishLoading());
+  };
+};
+
+export const logout = () => ({
+  type: TYPES.logout,
+});
+//#endregion Logout

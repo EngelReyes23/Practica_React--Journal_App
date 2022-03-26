@@ -14,11 +14,12 @@ export const RegisterScreen = () => {
   const { msgError } = useSelector((state) => state.ui);
 
   // elimina el error cuando se desmonta el componente
-  useEffect(() => {
-    return () => {
-      dispatch(removeError());
-    };
-  }, []);
+  // useEffect(() => {
+  //   dispatch(removeError());
+  //   return () => {
+  //     dispatch(removeError());
+  //   };
+  // }, []);
 
   // #region states
 
