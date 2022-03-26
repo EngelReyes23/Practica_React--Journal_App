@@ -1,6 +1,7 @@
 import { TYPES } from "../types/TYPES";
 import { firebase, googleAuthProvider } from "../firebase/firebaseConfig";
 import { finishLoading, setError, startLoading } from "./ui";
+import Swal from "sweetalert2";
 
 //#region Login
 
@@ -17,6 +18,7 @@ export const loginWidthEmailPassword = (email, password) => {
       .catch((error) => {
         dispatch(finishLoading());
         dispatch(setError(error.message));
+        Swal.fire("Error", error.message, "error");
       });
   };
 };
@@ -58,6 +60,7 @@ export const registerEmailPasswordName = (email, password, name) => {
       .catch((error) => {
         dispatch(finishLoading());
         dispatch(setError(error.message));
+        Swal.fire("Error", error.message, "error");
       });
   };
 };
