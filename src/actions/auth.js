@@ -1,13 +1,23 @@
 import { TYPES } from "../types/TYPES";
 import { firebase, googleAuthProvider } from "../firebase/firebaseConfig";
+import { finishLoading, setError, startLoading } from "./ui";
 
 //#region Login
 
 export const loginWidthEmailPassword = (email, password) => {
   return (dispatch) => {
-    setTimeout(() => {
-      dispatch(login(1234, "Reyes"));
-    }, 3500);
+    dispatch(startLoading());
+    firebase
+      .auth()
+      .signInWithEmailAndPassword(email, password)
+      .then(({ user }) => {
+        dispatch(login(user.uid, user.displayName));
+        dispatch(finishLoading());
+      })
+      .catch((error) => {
+        dispatch(finishLoading());
+        dispatch(setError(error.message));
+      });
   };
 };
 

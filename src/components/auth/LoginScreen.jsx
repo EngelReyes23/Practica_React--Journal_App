@@ -1,23 +1,59 @@
-import React from "react";
-import { useDispatch } from "react-redux";
+import React, { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { loginWidthGoogle, loginWidthEmailPassword } from "../../actions/auth";
+import validator from "validator";
+import { loginWidthEmailPassword, loginWidthGoogle } from "../../actions/auth";
+import { removeError, setError } from "../../actions/ui";
 import { useForm } from "../../hooks/useForm";
 
 export const LoginScreen = () => {
+  // dispatch for actions from react-redux
   const dispatch = useDispatch();
 
+  // selector for the state from react-redux
+  const { msgError, loading } = useSelector((state) => state.ui);
+
+  // elimina el error cuando se desmonta el componente
+  useEffect(() => {
+    return () => {
+      dispatch(removeError());
+    };
+  }, []);
+
+  //#region States
   const { handleInputChange, formValues } = useForm({
     email: "asdf@gmail.com",
     password: "123456789",
   });
 
   const { email, password } = formValues;
+  //#endregion States
 
   //#region Handles
+
+  const isValid = () => {
+    if (email.trim().length === 0) {
+      dispatch(setError("Email is required"));
+      // setTimeout(() => {
+      //   dispatch(removeError());
+      // }, 3000);
+      return false;
+    } else if (!validator.isEmail(email)) {
+      dispatch(setError("Email is not valid"));
+      return false;
+    } else if (password.length === 0) {
+      dispatch(setError("Password is required"));
+      return false;
+    }
+
+    dispatch(removeError());
+    return true;
+  };
+
   const handleLogin = (e) => {
     e.preventDefault();
-    dispatch(loginWidthEmailPassword(email, password));
+
+    if (isValid()) dispatch(loginWidthEmailPassword(email, password));
   };
 
   const handleGoogleLogin = (e) => {
@@ -25,11 +61,6 @@ export const LoginScreen = () => {
     dispatch(loginWidthGoogle());
   };
   //#endregion Handles
-
-  // const isValidEmail = (email) => {
-  //   const regex = /[^@ \t\r\n]+@[^@ \t\r\n]+\.[^@ \t\r\n]+/;
-  //   return regex.test(email);
-  // };
 
   return (
     <form className={"auth__form"} onSubmit={handleLogin}>
@@ -47,6 +78,8 @@ export const LoginScreen = () => {
         />{" "}
         Log in with Google
       </button>
+
+      {msgError && <div className="auth__alert-error">{msgError}</div>}
 
       <label className={"label"} htmlFor="email">
         Email
@@ -76,11 +109,7 @@ export const LoginScreen = () => {
         onChange={handleInputChange}
       />
 
-      <button
-        // disabled={!isValidEmail(form.email)}
-        className={`btn btn-login`}
-        type="submit"
-      >
+      <button disabled={loading} className={`btn btn-login`} type="submit">
         Login
       </button>
 
