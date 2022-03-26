@@ -42,6 +42,8 @@ export const login = (uid, displayName) => ({
 
 export const registerEmailPasswordName = (email, password, name) => {
   return (dispatch) => {
+    dispatch(startLoading());
+
     firebase
       .auth()
       .createUserWithEmailAndPassword(email, password)
@@ -51,6 +53,11 @@ export const registerEmailPasswordName = (email, password, name) => {
         await user.updateProfile({ displayName: name });
 
         dispatch(login(user.uid, user.displayName));
+        dispatch(finishLoading());
+      })
+      .catch((error) => {
+        dispatch(finishLoading());
+        dispatch(setError(error.message));
       });
   };
 };
