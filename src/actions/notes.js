@@ -43,3 +43,22 @@ export const setNotes = (notes) => ({
   type: TYPES.notesLoad,
   payload: notes,
 });
+
+export const saveNote = (note) => {
+  return async (dispatch, getState) => {
+    dispatch(startLoading());
+
+    const uid = getState().auth.uid;
+
+    const collectionPath = `users/${uid}/notes`;
+
+    if (!note.imgUrl) delete note.imgUrl;
+
+    const noteToFirestore = { ...note };
+    delete noteToFirestore.id;
+
+    await db.doc(`${collectionPath}/${note.id}`).update(noteToFirestore);
+
+    dispatch(finishLoading());
+  };
+};
