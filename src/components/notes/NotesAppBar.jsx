@@ -10,6 +10,10 @@ export const NotesAppBar = () => {
     dispatch(saveNote(activeNote));
   };
 
+  /* TODO: implementar subida de imágenes 
+    https://284754913798112:NIjsJDVtPTj_cK3k9NehCDTzwaM@api.cloudinary.com/v1_1/vance-short/upload
+  */
+
   return (
     <div className={"notes__appbar"}>
       <span>23 octubre 1998</span>
