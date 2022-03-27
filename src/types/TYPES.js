@@ -10,9 +10,10 @@ export const TYPES = {
   uiFinishLoading: "[UI] finish loading",
 
   // Notes
+  notesActive: "[Notes] active",
   notesAddNew: "[Notes] add new",
   notesClearList: "[Notes] clear list",
   notesDelete: "[Notes] delete",
-  notesLoad: "[Notes] load",
+  notesLoad: "[Notes] load notes",
   notesUpdate: "[Notes] update",
 };

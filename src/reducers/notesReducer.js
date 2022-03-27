@@ -1,3 +1,5 @@
+import { TYPES } from "../types/TYPES";
+
 const initialState = {
   notes: [],
   activeNote: {},
@@ -5,9 +7,19 @@ const initialState = {
 
 export const notesReducer = (state = initialState, action) => {
   switch (action.type) {
-    // case value:
+    case TYPES.notesActive:
+      return {
+        ...state,
+        activeNote: {
+          ...action.payload,
+        },
+      };
 
-    //   break;
+    case TYPES.notesLoad:
+      return {
+        ...state,
+        notes: action.payload,
+      };
 
     default:
       return state;
