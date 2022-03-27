@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import validator from "validator";
 import { loginWidthEmailPassword, loginWidthGoogle } from "../../actions/auth";
-import { removeError, setError } from "../../actions/ui";
+import { showError } from "../../actions/ui";
 import { useForm } from "../../hooks/useForm";
 
 export const LoginScreen = () => {
@@ -14,12 +14,7 @@ export const LoginScreen = () => {
   const { msgError, loading } = useSelector((state) => state.ui);
 
   // elimina el error cuando se desmonta el componente
-  // useEffect(() => {
-  //   dispatch(removeError());
-  //   return () => {
-  //     dispatch(removeError());
-  //   };
-  // }, []);
+  useEffect(() => {}, []);
 
   //#region States
   const { handleInputChange, formValues } = useForm({
@@ -34,20 +29,19 @@ export const LoginScreen = () => {
 
   const isValid = () => {
     if (email.trim().length === 0) {
-      dispatch(setError("Email is required"));
+      dispatch(showError("Email is required"));
       // setTimeout(() => {
       //   dispatch(removeError());
       // }, 3000);
       return false;
     } else if (!validator.isEmail(email)) {
-      dispatch(setError("Email is not valid"));
+      dispatch(showError("Email is not valid"));
       return false;
     } else if (password.length === 0) {
-      dispatch(setError("Password is required"));
+      dispatch(showError("Password is required"));
       return false;
     }
 
-    dispatch(removeError());
     return true;
   };
 

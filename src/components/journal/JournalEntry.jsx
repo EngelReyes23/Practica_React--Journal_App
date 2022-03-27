@@ -1,6 +1,6 @@
 import moment from "moment";
 import React from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { activeNote } from "../../actions/notes";
 
 export const JournalEntry = ({ note }) => {
@@ -9,8 +9,11 @@ export const JournalEntry = ({ note }) => {
   const { title, body, createdAt, id, imgUrl } = note;
   const noteDate = moment(createdAt);
 
+  const { activeNote: noteActive } = useSelector((state) => state.notes);
+
   const handleEntryClick = () => {
-    dispatch(activeNote(id, note));
+    // si la nota ya esta activa que no vuelva a disparar la acción
+    noteActive.id !== id && dispatch(activeNote(id, note));
   };
 
   return (

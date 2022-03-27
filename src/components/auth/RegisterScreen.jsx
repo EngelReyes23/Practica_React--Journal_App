@@ -1,9 +1,9 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import validator from "validator";
 import { registerEmailPasswordName } from "../../actions/auth";
-import { removeError, setError } from "../../actions/ui";
+import { showError } from "../../actions/ui";
 import { useForm } from "../../hooks/useForm";
 
 export const RegisterScreen = () => {
@@ -43,18 +43,18 @@ export const RegisterScreen = () => {
 
   const isFormValid = () => {
     if (name.trim().length === 0) {
-      dispatch(setError("Name is required"));
+      dispatch(showError("Name is required"));
       return false;
     } else if (!validator.isEmail(email)) {
-      dispatch(setError("Email is not valid"));
+      dispatch(showError("Email is not valid"));
       return false;
     } else if (password !== confirmPassword || password.length < 6) {
       dispatch(
-        setError("Password does not match or is less than 6 characters")
+        showError("Password does not match or is less than 6 characters")
       );
       return false;
     }
-    dispatch(removeError());
+
     return true;
   };
 

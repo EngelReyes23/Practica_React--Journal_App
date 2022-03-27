@@ -1,7 +1,8 @@
-import { TYPES } from "../types/TYPES";
-import { firebase, googleAuthProvider } from "../firebase/firebaseConfig";
-import { finishLoading, setError, startLoading } from "./ui";
 import Swal from "sweetalert2";
+import "sweetalert2/dist/sweetalert2.css";
+import { firebase, googleAuthProvider } from "../firebase/firebaseConfig";
+import { TYPES } from "../types/TYPES";
+import { finishLoading, showError, startLoading } from "./ui";
 
 //#region Login
 
@@ -17,7 +18,7 @@ export const loginWidthEmailPassword = (email, password) => {
       })
       .catch((error) => {
         dispatch(finishLoading());
-        dispatch(setError(error.message));
+        dispatch(showError(error.message));
         Swal.fire("Error", error.message, "error");
       });
   };
@@ -59,7 +60,7 @@ export const registerEmailPasswordName = (email, password, name) => {
       })
       .catch((error) => {
         dispatch(finishLoading());
-        dispatch(setError(error.message));
+        dispatch(showError(error.message));
         Swal.fire("Error", error.message, "error");
       });
   };
