@@ -8,4 +8,11 @@ export const TYPES = {
   uiRemoveError: "[UI] remove error",
   uiStartLoading: "[UI] start loading",
   uiFinishLoading: "[UI] finish loading",
+
+  // Notes
+  notesAddNew: "[Notes] add new",
+  notesClearList: "[Notes] clear list",
+  notesDelete: "[Notes] delete",
+  notesLoad: "[Notes] load",
+  notesUpdate: "[Notes] update",
 };

@@ -1,6 +1,7 @@
 import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { startLogout } from "../../actions/auth";
+import { startNewNote } from "../../actions/notes";
 import { JournalEntries } from "./JournalEntries";
 
 export const Sidebar = () => {
@@ -10,6 +11,10 @@ export const Sidebar = () => {
 
   const handleLogout = () => {
     dispatch(startLogout());
+  };
+
+  const handleNewEntry = () => {
+    dispatch(startNewNote());
   };
 
   return (
@@ -28,7 +33,7 @@ export const Sidebar = () => {
           Logout
         </button>
       </div>
-      <div className="journal__sidebar-entry">
+      <div className="journal__sidebar-entry" onClick={handleNewEntry}>
         <span className="material-icons md-48">add_box</span>
         <span>New Entry</span>
       </div>
