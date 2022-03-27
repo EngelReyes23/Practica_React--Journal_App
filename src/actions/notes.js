@@ -32,8 +32,10 @@ export const activeNote = (id, note) => ({
 
 export const getNotes = (uid) => {
   return async (dispatch) => {
+    dispatch(startLoading());
     const notes = await loadNotes(uid);
     dispatch(setNotes(notes));
+    dispatch(finishLoading());
   };
 };
 
