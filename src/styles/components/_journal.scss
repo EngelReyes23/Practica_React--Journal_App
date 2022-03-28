@@ -50,6 +50,20 @@
   }
 }
 
+.btn-delete {
+  background-color: red;
+  color: #fff;
+  margin: .5rem 0 0;
+
+  &:hover {
+    background-color: darken($color: red, $amount: 20%);
+  }
+
+  &:active {
+    background-color: var(--tertiary);
+  }
+}
+
 .btn-logOut {
   margin: 0;
   color: white;

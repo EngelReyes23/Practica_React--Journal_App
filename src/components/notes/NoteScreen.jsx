@@ -11,14 +11,13 @@ export const NoteScreen = () => {
   const { formValues, handleInputChange, reset } = useForm(note);
   const { title, body } = formValues;
 
-  // actualiza el la nota activa al hacer el cambio a otra nota
+  // actualiza el contenido de la nota cuando se cambia el estado
   useEffect(() => {
     reset(note);
-  }, [note.id]);
+  }, [note.id, note.imgUrl]);
 
   // actualiza el titulo y el cuerpo de la nota activa
   useEffect(() => {
-    console.log(formValues);
     dispatch(activeNote(note.id, formValues));
   }, [formValues]);
 
@@ -46,12 +45,10 @@ export const NoteScreen = () => {
         ></textarea>
         {note.imgUrl && (
           <div className="notes__image">
-            <img
-              src="https://static-cse.canva.com/_next/static/assets/complementary-colors.1200x690.f6aff61a6d4a050896d92666ac184888.png"
-              alt="img"
-            />
+            <img src={note.imgUrl} alt="img" />
           </div>
         )}
+        <button className={"btn btn-delete"}>Delete</button>
       </div>
     </div>
   );

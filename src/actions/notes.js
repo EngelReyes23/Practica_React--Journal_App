@@ -63,6 +63,8 @@ export const saveNote = (note) => {
     const uid = getState().auth.uid;
     const collectionPath = `users/${uid}/notes`;
 
+    console.log(note);
+
     if (!note.imgUrl) delete note.imgUrl;
 
     const noteToFirestore = { ...note };
@@ -91,14 +93,34 @@ export const refreshNotes = (id, note) => ({
   },
 });
 
+// comienza la subida del archivo
 export const startUploading = (file) => {
   return async (dispatch, getState) => {
+    dispatch(startLoading());
+
     const { activeNote: note } = getState().notes;
 
+    Swal.fire({
+      title: "Uploading...",
+      text: "Please wait...",
+      allowOutsideClick: false,
+      showConfirmButton: false,
+      willOpen: () => {
+        Swal.showLoading();
+      },
+    });
+
     try {
+      // uploadFile sube el archivo y retorna la url
       const secureUrl = await uploadFile(file);
-      console.log(secureUrl);
-      Swal.fire("Uploaded!", "Your file has been uploaded!", "success");
+
+      // actualiza la nota con la url del archivo
+      note.imgUrl = secureUrl;
+      dispatch(activeNote(note.id, note));
+      dispatch(saveNote(note));
+
+      // Swal.fire("Uploaded!", "Your file has been uploaded!", "success");
+      dispatch(finishLoading());
     } catch (error) {
       Swal.fire("Error!", error.message, "error");
     }
