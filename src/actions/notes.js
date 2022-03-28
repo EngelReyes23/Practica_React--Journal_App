@@ -64,8 +64,6 @@ export const setNotes = (notes) => ({
 // Guarda la nota en la base de datos
 export const saveNote = (note) => {
   return async (dispatch, getState) => {
-    dispatch(startLoading());
-
     const uid = getState().auth.uid;
     const collectionPath = `users/${uid}/notes`;
 
@@ -80,11 +78,9 @@ export const saveNote = (note) => {
       await db.doc(`${collectionPath}/${note.id}`).update(noteToFirestore);
 
       dispatch(refreshNotes(note.id, note));
-      dispatch(finishLoading());
 
       Swal.fire("Saved!", "Your note has been saved!", "success");
     } catch {
-      dispatch(finishLoading());
       Swal.fire("Error!", "Your note has not been saved!", "error");
     }
   };
@@ -102,8 +98,6 @@ export const refreshNotes = (id, note) => ({
 // comienza la subida del archivo
 export const startUploading = (file) => {
   return async (dispatch, getState) => {
-    dispatch(startLoading());
-
     const { activeNote: note } = getState().notes;
 
     Swal.fire({
@@ -124,8 +118,6 @@ export const startUploading = (file) => {
       note.imgUrl = secureUrl;
       dispatch(activeNote(note.id, note));
       dispatch(saveNote(note));
-
-      dispatch(finishLoading());
     } catch (error) {
       Swal.fire("Error!", error.message, "error");
     }
@@ -134,7 +126,6 @@ export const startUploading = (file) => {
 
 export const startDeleteNote = (id) => {
   return async (dispatch, getState) => {
-    dispatch(startLoading());
     const uid = getState().auth.uid;
 
     const collectionPath = `users/${uid}/notes`;
@@ -143,11 +134,9 @@ export const startDeleteNote = (id) => {
       await db.doc(`${collectionPath}/${id}`).delete();
 
       dispatch(deleteNote(id));
-      dispatch(finishLoading());
 
       Swal.fire("Deleted!", "Your note has been deleted!", "success");
     } catch {
-      dispatch(finishLoading());
       Swal.fire("Error!", "Your note has not been deleted!", "error");
     }
   };
