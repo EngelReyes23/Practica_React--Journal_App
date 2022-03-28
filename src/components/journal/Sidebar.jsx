@@ -5,10 +5,13 @@ import { startNewNote } from "../../actions/notes";
 import { JournalEntries } from "./JournalEntries";
 
 export const Sidebar = () => {
+  //#region Redux
   const dispatch = useDispatch();
 
   const { name } = useSelector((state) => state.auth);
+  //#endregion Redux
 
+  //#region Handles
   const handleLogout = () => {
     dispatch(startLogout());
   };
@@ -16,6 +19,7 @@ export const Sidebar = () => {
   const handleNewEntry = () => {
     dispatch(startNewNote());
   };
+  //#endregion Handles
 
   return (
     <aside className={"journal__sidebar"}>
@@ -25,11 +29,7 @@ export const Sidebar = () => {
           <span>{name}</span>
         </h3>
 
-        <button
-          // to={"/auth/login"}
-          className={" btn btn-logOut"}
-          onClick={handleLogout}
-        >
+        <button className={" btn btn-logOut"} onClick={handleLogout}>
           Logout
         </button>
       </div>

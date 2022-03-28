@@ -3,9 +3,7 @@ import { useSelector } from "react-redux";
 import { JournalEntry } from "./JournalEntry";
 
 export const JournalEntries = () => {
-  // // genera un array de 100 elementos
-  // const entries = new Array(5).fill();
-
+  // Get the journal entries from the Redux store
   const { notes } = useSelector((state) => state.notes);
 
   return (

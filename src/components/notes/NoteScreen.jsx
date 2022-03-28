@@ -7,12 +7,17 @@ import { useForm } from "../../hooks/useForm";
 import { NotesAppBar } from "./NotesAppBar";
 
 export const NoteScreen = () => {
-  const { activeNote: note } = useSelector((state) => state.notes);
+  //#region Redux
   const dispatch = useDispatch();
+  const { activeNote: note } = useSelector((state) => state.notes);
+  //#endregion Redux
 
+  //#region States
   const { formValues, handleInputChange, reset } = useForm(note);
   const { title, body, id } = formValues;
+  //#endregion States
 
+  //#region Effects
   // actualiza el contenido de la nota cuando se cambia el estado
   useEffect(() => {
     reset(note);
@@ -22,9 +27,11 @@ export const NoteScreen = () => {
   useEffect(() => {
     dispatch(activeNote(note.id, formValues));
   }, [formValues]);
+  //#endregion Effects
 
   //#region Handles
   const handleDeleteNote = () => {
+    // confirmar si se quiere eliminar la nota
     Swal.fire({
       title: "Are you sure?",
       text: "You won't be able to revert this!",

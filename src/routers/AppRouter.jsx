@@ -2,22 +2,26 @@ import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { BrowserRouter as Router, Redirect, Switch } from "react-router-dom";
 import { login } from "../actions/auth";
-import { getNotes, setNotes } from "../actions/notes";
+import { getNotes } from "../actions/notes";
 import { JournalScreen } from "../components/journal/JournalScreen";
 import { Loading } from "../components/loading/Loading";
 import { firebase } from "../firebase/firebaseConfig";
-import { loadNotes } from "../helpers/loadNotes";
 import { AuthRouter } from "./AuthRouter";
 import { PrivateRoute } from "./PrivateRoute";
 import { PublicRoute } from "./PublicRoute";
 
 export const AppRouter = () => {
+  //#region Redux
   const dispatch = useDispatch();
   const { loading } = useSelector((state) => state.ui);
+  //#endregion Redux
 
+  // #region States
   const [ready, setReady] = useState(false);
   const [isLogged, setIsLogged] = useState(false);
+  //#endregion States
 
+  //#region Effect
   useEffect(() => {
     firebase.auth().onAuthStateChanged(async (user) => {
       // verifica si contiene un usuario
@@ -30,6 +34,7 @@ export const AppRouter = () => {
       setReady(true);
     });
   }, []);
+  //#endregion Effect
 
   if (!ready) return <Loading />;
 

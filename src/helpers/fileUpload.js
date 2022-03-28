@@ -1,9 +1,8 @@
 export const uploadFile = async (file) => {
-  // const cloudUrl =
-  //   "https://284754913798112:NIjsJDVtPTj_cK3k9NehCDTzwaM@api.cloudinary.com/v1_1/vance-short/upload";
-
+  // API call to upload file
   const cloudUrl = "https://api.cloudinary.com/v1_1/vance-short/upload";
 
+  // Form data para enviar el archivo
   const formData = new FormData();
 
   formData.append("upload_preset", "React-JournalApp");

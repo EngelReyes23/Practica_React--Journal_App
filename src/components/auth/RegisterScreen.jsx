@@ -7,35 +7,41 @@ import { showError } from "../../actions/ui";
 import { useForm } from "../../hooks/useForm";
 
 export const RegisterScreen = () => {
+  //#region Redux
   // dispatch for actions from react-redux
   const dispatch = useDispatch();
 
   // selector for the state from react-redux
   const { msgError } = useSelector((state) => state.ui);
+  //#endregion Redux
 
-  // #region states
-
+  // #region States
+  // Estado de los campos del formulario
   const { handleInputChange, formValues } = useForm({
-    name: "name",
-    email: "asdf@gmail.com",
-    password: "123456789",
-    confirmPassword: "123456789",
+    name: "",
+    email: "",
+    password: "",
+    confirmPassword: "",
   });
 
   const { name, email, password, confirmPassword } = formValues;
-
   //#endregion states
 
   // #region Handles
+  // Hace el dispatch para el registro
   const handleRegister = (e) => {
     e.preventDefault();
     if (isFormValid())
       dispatch(registerEmailPasswordName(email, password, name));
   };
 
+  // Verifica si los campos son validos
   const isFormValid = () => {
     if (name.trim().length === 0) {
       dispatch(showError("Name is required"));
+      return false;
+    } else if (email.trim().length === 0) {
+      dispatch(showError("Email is required"));
       return false;
     } else if (!validator.isEmail(email)) {
       dispatch(showError("Email is not valid"));
@@ -49,7 +55,6 @@ export const RegisterScreen = () => {
 
     return true;
   };
-
   // #endregion Handles
 
   return (

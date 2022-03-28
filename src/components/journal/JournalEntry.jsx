@@ -4,13 +4,17 @@ import { useDispatch, useSelector } from "react-redux";
 import { activeNote } from "../../actions/notes";
 
 export const JournalEntry = ({ note }) => {
+  //#region Redux
   const dispatch = useDispatch();
 
+  const { activeNote: noteActive } = useSelector((state) => state.notes);
+  //#endregion Redux
+
   const { title, body, createdAt, id, imgUrl } = note;
+
   const noteDate = moment(createdAt);
 
-  const { activeNote: noteActive } = useSelector((state) => state.notes);
-
+  // Selecciona la nota activa
   const handleEntryClick = () => {
     // si la nota ya esta activa que no vuelva a disparar la acción
     noteActive.id !== id && dispatch(activeNote(id, note));

@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import validator from "validator";
@@ -7,32 +7,28 @@ import { showError } from "../../actions/ui";
 import { useForm } from "../../hooks/useForm";
 
 export const LoginScreen = () => {
+  //#region Redux
   // dispatch for actions from react-redux
   const dispatch = useDispatch();
 
   // selector for the state from react-redux
   const { msgError, loading } = useSelector((state) => state.ui);
-
-  // elimina el error cuando se desmonta el componente
-  useEffect(() => {}, []);
+  //#endregion Redux
 
   //#region States
   const { handleInputChange, formValues } = useForm({
-    email: "asdf@gmail.com",
-    password: "123456789",
+    email: "",
+    password: "",
   });
 
   const { email, password } = formValues;
   //#endregion States
 
   //#region Handles
-
+  // Verifica si los campos son validos
   const isValid = () => {
     if (email.trim().length === 0) {
       dispatch(showError("Email is required"));
-      // setTimeout(() => {
-      //   dispatch(removeError());
-      // }, 3000);
       return false;
     } else if (!validator.isEmail(email)) {
       dispatch(showError("Email is not valid"));
@@ -45,12 +41,15 @@ export const LoginScreen = () => {
     return true;
   };
 
+  // Hace el dispatch para el login
   const handleLogin = (e) => {
     e.preventDefault();
 
+    // Verifica si los campos son validos para hacer el dispatch
     if (isValid()) dispatch(loginWidthEmailPassword(email, password));
   };
 
+  // Hace el dispatch para el login con google
   const handleGoogleLogin = (e) => {
     e.preventDefault();
     dispatch(loginWidthGoogle());

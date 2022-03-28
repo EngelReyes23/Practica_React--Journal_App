@@ -6,10 +6,11 @@ import { notesLogout } from "./notes";
 import { finishLoading, showError, startLoading } from "./ui";
 
 //#region Login
-
+// Inicia sesión en firebase con Email y Password
 export const loginWidthEmailPassword = (email, password) => {
   return (dispatch) => {
     dispatch(startLoading());
+
     firebase
       .auth()
       .signInWithEmailAndPassword(email, password)
@@ -25,6 +26,7 @@ export const loginWidthEmailPassword = (email, password) => {
   };
 };
 
+// Inicia sesión en firebase con Google
 export const loginWidthGoogle = () => {
   return (dispatch) => {
     firebase
@@ -36,6 +38,7 @@ export const loginWidthGoogle = () => {
   };
 };
 
+// Inicia sesión en la app, establece el estado de la app
 export const login = (uid, displayName) => ({
   type: TYPES.login,
   payload: { uid, displayName },
@@ -43,7 +46,7 @@ export const login = (uid, displayName) => ({
 //#endregion Login
 
 //#region Register
-
+// Se registra en firebase con Email y Password
 export const registerEmailPasswordName = (email, password, name) => {
   return (dispatch) => {
     dispatch(startLoading());
@@ -52,7 +55,7 @@ export const registerEmailPasswordName = (email, password, name) => {
       .auth()
       .createUserWithEmailAndPassword(email, password)
       .then(async ({ user }) => {
-        /* INFO: actualiza el displayName del usuario, ya que al momento de
+        /* INFO: Actualiza el displayName del usuario, ya que al momento de
         crearlo no se le asigna uno por defecto */
         await user.updateProfile({ displayName: name });
 
@@ -69,18 +72,21 @@ export const registerEmailPasswordName = (email, password, name) => {
 //#endregion Register
 
 //#region Logout
-
+// Se cierra sesión en firebase
 export const startLogout = () => {
   return async (dispatch) => {
     dispatch(startLoading());
+
     await firebase.auth().signOut();
+
     dispatch(logout());
     dispatch(notesLogout());
     dispatch(finishLoading());
   };
 };
 
-export const logout = () => ({
+// Se cierra sesión en la app, establece el estado de la app
+const logout = () => ({
   type: TYPES.logout,
 });
 //#endregion Logout
