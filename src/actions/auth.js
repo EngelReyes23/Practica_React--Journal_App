@@ -2,6 +2,7 @@ import Swal from "sweetalert2";
 import "sweetalert2/dist/sweetalert2.css";
 import { firebase, googleAuthProvider } from "../firebase/firebaseConfig";
 import { TYPES } from "../types/TYPES";
+import { notesLogout } from "./notes";
 import { finishLoading, showError, startLoading } from "./ui";
 
 //#region Login
@@ -74,6 +75,7 @@ export const startLogout = () => {
     dispatch(startLoading());
     await firebase.auth().signOut();
     dispatch(logout());
+    dispatch(notesLogout());
     dispatch(finishLoading());
   };
 };

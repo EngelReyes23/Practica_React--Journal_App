@@ -12,7 +12,7 @@ export const TYPES = {
   // Notes
   notesActive: "[Notes] active note",
   notesAddNew: "[Notes] add new note",
-  notesClearList: "[Notes] clear list",
+  notesLogout: "[Notes] logout",
   notesDelete: "[Notes] delete note",
   notesLoad: "[Notes] load notes",
   notesUpdate: "[Notes] update note",
