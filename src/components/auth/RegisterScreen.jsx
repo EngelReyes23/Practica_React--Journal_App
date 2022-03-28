@@ -13,14 +13,6 @@ export const RegisterScreen = () => {
   // selector for the state from react-redux
   const { msgError } = useSelector((state) => state.ui);
 
-  // elimina el error cuando se desmonta el componente
-  // useEffect(() => {
-  //   dispatch(removeError());
-  //   return () => {
-  //     dispatch(removeError());
-  //   };
-  // }, []);
-
   // #region states
 
   const { handleInputChange, formValues } = useForm({
