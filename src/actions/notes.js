@@ -27,9 +27,15 @@ export const startNewNote = () => {
     const doc = await db.collection(collectionPath).add(newNote);
 
     dispatch(activeNote(doc.id, newNote));
+    dispatch(addNewNote(doc.id, newNote));
     dispatch(finishLoading());
   };
 };
+
+const addNewNote = (id, note) => ({
+  type: TYPES.notesAddNew,
+  payload: { id, ...note },
+});
 
 // Establece la nota activa
 export const activeNote = (id, note) => ({
