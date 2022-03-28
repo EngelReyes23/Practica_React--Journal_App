@@ -119,10 +119,35 @@ export const startUploading = (file) => {
       dispatch(activeNote(note.id, note));
       dispatch(saveNote(note));
 
-      // Swal.fire("Uploaded!", "Your file has been uploaded!", "success");
       dispatch(finishLoading());
     } catch (error) {
       Swal.fire("Error!", error.message, "error");
     }
   };
 };
+
+export const startDeleteNote = (id) => {
+  return async (dispatch, getState) => {
+    dispatch(startLoading());
+    const uid = getState().auth.uid;
+
+    const collectionPath = `users/${uid}/notes`;
+
+    try {
+      await db.doc(`${collectionPath}/${id}`).delete();
+
+      dispatch(deleteNote(id));
+      dispatch(finishLoading());
+
+      Swal.fire("Deleted!", "Your note has been deleted!", "success");
+    } catch {
+      dispatch(finishLoading());
+      Swal.fire("Error!", "Your note has not been deleted!", "error");
+    }
+  };
+};
+
+const deleteNote = (id) => ({
+  type: TYPES.notesDelete,
+  payload: id,
+});
