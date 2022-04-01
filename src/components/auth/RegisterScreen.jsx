@@ -1,10 +1,11 @@
 import React from "react";
+import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import validator from "validator";
+//
 import { registerEmailPasswordName } from "../../actions/auth";
-import { showError } from "../../actions/ui";
-import { useForm } from "../../hooks/useForm";
+import { emailIsValid } from "../../helpers/emailIsValid";
+import { RequiredValues } from "../../helpers/requiredForm";
 
 export const RegisterScreen = () => {
   //#region Redux
@@ -15,107 +16,87 @@ export const RegisterScreen = () => {
   const { msgError } = useSelector((state) => state.ui);
   //#endregion Redux
 
-  // #region States
-  // Estado de los campos del formulario
-  const { handleInputChange, formValues } = useForm({
-    name: "",
-    email: "",
-    password: "",
-    confirmPassword: "",
-  });
+  //#region States
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
 
-  const { name, email, password, confirmPassword } = formValues;
   //#endregion states
 
   // #region Handles
   // Hace el dispatch para el registro
-  const handleRegister = (e) => {
+  const handleRegister = ({ name, email, password }, e) => {
     e.preventDefault();
-    if (isFormValid())
+    if (emailIsValid(email))
       dispatch(registerEmailPasswordName(email, password, name));
-  };
 
-  // Verifica si los campos son validos
-  const isFormValid = () => {
-    if (name.trim().length === 0) {
-      dispatch(showError("Name is required"));
-      return false;
-    } else if (email.trim().length === 0) {
-      dispatch(showError("Email is required"));
-      return false;
-    } else if (!validator.isEmail(email)) {
-      dispatch(showError("Email is not valid"));
-      return false;
-    } else if (password !== confirmPassword || password.length < 6) {
-      dispatch(
-        showError("Password does not match or is less than 6 characters")
-      );
-      return false;
-    }
-
-    return true;
+    e.target.reset();
   };
   // #endregion Handles
 
   return (
-    <form className={"auth__form"} onSubmit={handleRegister}>
+    <form className={"auth__form"} onSubmit={handleSubmit(handleRegister)}>
       <h3 className={"auth__title"}>Register</h3>
 
       {msgError && <div className="auth__alert-error">{msgError}</div>}
 
       <label className={"label"} htmlFor="name">
-        Name
+        {errors.name ? errors.name.message : "Name"}
       </label>
       <input
         id="name"
         className={"auth__input"}
         type="text"
         placeholder={"Name"}
-        name="name"
-        value={name}
-        onChange={handleInputChange}
         autoComplete={"off"}
+        {...register("name", {
+          required: RequiredValues("Name"),
+        })}
       />
 
       <label className={"label"} htmlFor="email">
-        Email
+        {errors.email ? errors.email.message : "Email"}
       </label>
       <input
         id="email"
         className={"auth__input"}
         type="email"
         placeholder={"Email@domain"}
-        name="email"
-        value={email}
-        onChange={handleInputChange}
         autoComplete={"off"}
+        {...register("email", {
+          required: RequiredValues("Email"),
+        })}
       />
 
       <label className={"label"} htmlFor="password">
-        Password
+        {errors.password ? errors.password.message : "Password"}
       </label>
       <input
         id="password"
         className={"auth__input"}
         type="password"
         placeholder={"********"}
-        name="password"
-        value={password}
-        onChange={handleInputChange}
         autoComplete={"off"}
+        {...register("password", {
+          required: RequiredValues("Password"),
+        })}
       />
       <label className={"label"} htmlFor="password2">
-        Confirm Password
+        {errors.confirmPassword
+          ? errors.confirmPassword.message
+          : "Confirm Password"}
       </label>
       <input
         id="password2"
         className={"auth__input"}
         type="password"
         placeholder={"********"}
-        name="confirmPassword"
-        value={confirmPassword}
-        onChange={handleInputChange}
         autoComplete={"off"}
+        {...register("confirmPassword", {
+          required: RequiredValues("Confirm Password"),
+        })}
       />
 
       <button className={`btn btn-login`} type="submit">

@@ -1,5 +1,5 @@
 import moment from "moment";
-import React from "react";
+//
 import { useDispatch, useSelector } from "react-redux";
 import { saveNote, startUploading } from "../../actions/notes";
 

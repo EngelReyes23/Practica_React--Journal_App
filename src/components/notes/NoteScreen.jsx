@@ -1,9 +1,10 @@
 import React, { useEffect } from "react";
+import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import Swal from "sweetalert2";
-import "sweetalert2/dist/sweetalert2.css";
+//
 import { activeNote, startDeleteNote } from "../../actions/notes";
-import { useForm } from "../../hooks/useForm";
+import { RequiredValues } from "../../helpers/requiredForm";
 import { NotesAppBar } from "./NotesAppBar";
 
 export const NoteScreen = () => {
@@ -13,8 +14,23 @@ export const NoteScreen = () => {
   //#endregion Redux
 
   //#region States
-  const { formValues, handleInputChange, reset } = useForm(note);
-  const { title, body, id } = formValues;
+  const {
+    register,
+    formState: { errors },
+    reset,
+    getValues,
+    watch,
+  } = useForm({
+    mode: "onChange",
+    defaultValues: {
+      title: note.title,
+      body: note.body,
+      imgUrl: note.imgUrl ? note.imgUrl : "",
+    },
+  });
+
+  const { title, body, imgUrl } = watch();
+
   //#endregion States
 
   //#region Effects
@@ -25,8 +41,8 @@ export const NoteScreen = () => {
 
   // actualiza el titulo y el cuerpo de la nota activa
   useEffect(() => {
-    dispatch(activeNote(note.id, formValues));
-  }, [formValues]);
+    dispatch(activeNote(note.id, getValues()));
+  }, [title, body, imgUrl]);
   //#endregion Effects
 
   //#region Handles
@@ -41,10 +57,11 @@ export const NoteScreen = () => {
       cancelButtonColor: "#ff0000",
       confirmButtonText: "Yes, delete it!",
     }).then((result) => {
-      if (result.isConfirmed) dispatch(startDeleteNote(id));
+      if (result.isConfirmed) dispatch(startDeleteNote(note.id));
     });
   };
   //#endregion Handles
+  console.log("first");
 
   return (
     <div className={"notes__main-content"}>
@@ -53,20 +70,20 @@ export const NoteScreen = () => {
       <div className="notes__content">
         <input
           type="text"
-          value={title}
-          placeholder={"Title"}
+          placeholder={errors.title ? "Title is required" : "Title"}
           className="notes__title-input"
           autoCapitalize={"off"}
-          name="title"
-          onChange={handleInputChange}
+          {...register("title", {
+            required: RequiredValues("Title"),
+          })}
         />
         <textarea
-          value={body}
           placeholder={"Take a note..."}
           className="notes__textarea"
           autoCapitalize={"off"}
-          name="body"
-          onChange={handleInputChange}
+          {...register("body", {
+            required: RequiredValues("Body"),
+          })}
         ></textarea>
         {note.imgUrl && (
           <div className="notes__image">

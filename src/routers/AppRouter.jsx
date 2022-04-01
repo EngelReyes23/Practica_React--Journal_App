@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { HashRouter, Redirect, Switch } from "react-router-dom";
+//
 import { login } from "../actions/auth";
 import { getNotes } from "../actions/notes";
 import { JournalScreen } from "../components/journal/JournalScreen";

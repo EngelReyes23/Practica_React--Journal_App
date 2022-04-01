@@ -1,10 +1,11 @@
 import React from "react";
+import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import validator from "validator";
+//
 import { loginWidthEmailPassword, loginWidthGoogle } from "../../actions/auth";
-import { showError } from "../../actions/ui";
-import { useForm } from "../../hooks/useForm";
+import { emailIsValid } from "../../helpers/emailIsValid";
+import { RequiredValues } from "../../helpers/requiredForm";
 
 export const LoginScreen = () => {
   //#region Redux
@@ -16,37 +17,22 @@ export const LoginScreen = () => {
   //#endregion Redux
 
   //#region States
-  const { handleInputChange, formValues } = useForm({
-    email: "",
-    password: "",
-  });
-
-  const { email, password } = formValues;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   //#endregion States
 
   //#region Handles
-  // Verifica si los campos son validos
-  const isValid = () => {
-    if (email.trim().length === 0) {
-      dispatch(showError("Email is required"));
-      return false;
-    } else if (!validator.isEmail(email)) {
-      dispatch(showError("Email is not valid"));
-      return false;
-    } else if (password.length === 0) {
-      dispatch(showError("Password is required"));
-      return false;
-    }
-
-    return true;
-  };
-
   // Hace el dispatch para el login
-  const handleLogin = (e) => {
+  const handleLogin = ({ email, password }, e) => {
     e.preventDefault();
 
     // Verifica si los campos son validos para hacer el dispatch
-    if (isValid()) dispatch(loginWidthEmailPassword(email, password));
+    if (emailIsValid(email)) dispatch(loginWidthEmailPassword(email, password));
+
+    e.target.reset();
   };
 
   // Hace el dispatch para el login con google
@@ -56,8 +42,10 @@ export const LoginScreen = () => {
   };
   //#endregion Handles
 
+  console.log("LoginScreen");
+
   return (
-    <form className={"auth__form"} onSubmit={handleLogin}>
+    <form className={"auth__form"} onSubmit={handleSubmit(handleLogin)}>
       <h3 className={"auth__title"}>Login</h3>
       <button
         onClick={handleGoogleLogin}
@@ -76,31 +64,31 @@ export const LoginScreen = () => {
       {msgError && <div className="auth__alert-error">{msgError}</div>}
 
       <label className={"label"} htmlFor="email">
-        Email
+        {errors.email ? errors.email.message : "Email"}
       </label>
       <input
         id="email"
         className={"auth__input"}
         type="email"
         placeholder={"Email@domain"}
-        name="email"
-        value={email}
         autoComplete={"off"}
-        onChange={handleInputChange}
+        {...register("email", {
+          required: RequiredValues("Email"),
+        })}
       />
 
       <label className={"label"} htmlFor="password">
-        Password
+        {errors.password ? errors.password.message : "Password"}
       </label>
       <input
-        value={password}
         id="password"
         className={"auth__input"}
         type="password"
         placeholder={"********"}
-        name="password"
         autoComplete={"off"}
-        onChange={handleInputChange}
+        {...register("password", {
+          required: RequiredValues("Password"),
+        })}
       />
 
       <button disabled={loading} className={`btn btn-login`} type="submit">
