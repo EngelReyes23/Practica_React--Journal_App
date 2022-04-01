@@ -61,7 +61,6 @@ export const NoteScreen = () => {
     });
   };
   //#endregion Handles
-  console.log("first");
 
   return (
     <div className={"notes__main-content"}>

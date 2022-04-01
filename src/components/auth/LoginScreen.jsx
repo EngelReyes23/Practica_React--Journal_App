@@ -1,4 +1,3 @@
-import React from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
@@ -41,8 +40,6 @@ export const LoginScreen = () => {
     dispatch(loginWidthGoogle());
   };
   //#endregion Handles
-
-  console.log("LoginScreen");
 
   return (
     <form className={"auth__form"} onSubmit={handleSubmit(handleLogin)}>
